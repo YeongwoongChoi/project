@@ -2,12 +2,12 @@
 <hr/>
 
 * Overview   
-+ This folder includes some projects which I did on __CS(Computer Science)__ lectures.
+  + This folder includes some projects which I did on __CS(Computer Science)__ lectures.
 
 * Language   
-+ Java (11+) (almost)
-+ C/C++ (just for doing homework)
-+ Python (sometimes)   
+  + Java (11+) (almost)
+  + C/C++ (just for doing homework)
+  + Python (sometimes)   
 <hr/>
 
 ### If you want to see codes,   
