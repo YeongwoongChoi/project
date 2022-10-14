@@ -1,10 +1,10 @@
 # < Project Folder >
 <hr/>
 
-* Overview
+* Overview   
 + This folder includes some projects which I did on __CS(Computer Science)__ lectures.
 
-* Language
+* Language   
 + Java (11+) (almost)
 + C/C++ (just for doing homework)
 + Python (sometimes)   
