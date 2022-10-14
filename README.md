@@ -7,16 +7,17 @@
 * Language
 + Java (11+) (almost)
 + C/C++ (just for doing homework)
-+ Python (rarely)   
++ Python (sometimes)   
 <hr/>
 
 ### If you want to see codes,   
 
-1. Select the folder in which you are interested.
-2. Go inside the folder, and you can __easily__ find the sub-folder which is named as "src".   
+1. Go to __src__ folder.
+2. Select the folder in which you are interested.
+3. Go inside the folder, and you can __easily__ find the sub-folder which is named as __src__.   
 <hr/>
 
 If you have any question, please email me.
 
-<278choi@gmail.com>   
-<hero00@soongsil.ac.kr>   
+Personal email: <278choi@gmail.com>   
+Corporate email: <hero00@soongsil.ac.kr>   
