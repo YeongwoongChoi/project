@@ -2,7 +2,7 @@
 <hr/>
 
 * Overview   
-  + This folder includes some projects which I did on __CS(Computer Science)__ lectures.
+  + This folder includes some projects which I did on some lectures.
 
 * Language   
   + Java (11+) (almost)
