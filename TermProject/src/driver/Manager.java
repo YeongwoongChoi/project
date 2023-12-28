@@ -1,17 +1,15 @@
 package driver;
 
-import entity.Customer;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Manager <T extends Manageable> {
     public ArrayList <T> entityList = new ArrayList<>();
-    public HashMap <String, HashSet <String>> idToContacts = new HashMap<>();
+    public HashMap <String, LinkedHashSet <String>> idToContacts = new HashMap<>();
     final String SEPARATOR = "=";
     public void readAll(final String entityName, Factory <T> f) {
         DatabaseInfo info = new DatabaseInfo();
@@ -49,9 +47,9 @@ public class Manager <T extends Manageable> {
             ResultSet queriedContacts = queryForContacts.executeQuery();
 
             if (queriedContacts != null) {
-                HashSet<String> contacts = idToContacts.get(id);
+                LinkedHashSet <String> contacts = idToContacts.get(id);
                 if (contacts == null) {
-                    contacts = new HashSet<>();
+                    contacts = new LinkedHashSet<>();
                     idToContacts.put(id, contacts);
                 }
                 while (queriedContacts.next())
@@ -64,16 +62,16 @@ public class Manager <T extends Manageable> {
 
     public void printAll() { entityList.forEach(T::print); }
 
-    public T find(String id, String phoneNumber) {
+    public T find(String [] info) {
         for (T e: entityList) {
-            if (e.matches(id, phoneNumber))
+            if (e.matches(info))
                 return e;
         }
         return null;
     }
 
-    public List<T> findAll(String name, String phoneNumber) {
-        return entityList.stream().filter(e -> e.matches(name, phoneNumber)).collect(Collectors.toList());
+    public List<T> findAll(String [] info) {
+        return entityList.stream().filter(e -> e.matches(info)).collect(Collectors.toList());
     }
 
     public void addEntity(T e) {

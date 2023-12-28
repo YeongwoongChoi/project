@@ -2,17 +2,18 @@ package view;
 
 import facade.DataEngineInterface;
 import gui.GUIManager;
-//import gui.MyPage;
-import gui.Login;
+import gui.MyPage;
 import gui.TableSelection;
 
 import javax.swing.*;
 
 public class CustomerView {
     public static DataEngineInterface engine;
-
+    public static TableSelection [] tables;
     public static void run(DataEngineInterface en) {
         engine = en;
+        tables = new TableSelection[]{new TableSelection("customerorder"),
+                new TableSelection("restaurant"), new TableSelection("reserve") };
         SwingUtilities.invokeLater(() -> createAndShowGUI());
     }
 
@@ -25,46 +26,23 @@ public class CustomerView {
         GUIManager.frameLocation(mainFrame);
         GUIManager.customCursor(mainFrame);
 
+        final String [] labels = { "Ordered Dish", "Restaurants", "Your Reservation" };
         // Create and set up the content pane.
-        /*TableSelection newContentPane = new TableSelection();
-        newContentPane.addComponentsToPane();
-
+        for (int i = 0; i < tables.length; i++) {
+            tables[i].addComponentsToPane();
+            subTab.addTab(labels[i], tables[i]);
+        }
         mainFrame.getContentPane().add(tab);
+        MyPage myPage = new MyPage();
 
-        //ImageLecture lecturePage = new ImageLecture();
+        ImageIcon [] tabIcons = { new ImageIcon("img/home.png"),
+                new ImageIcon("img/mypage.png") };
 
-        //MyPage myPage = new MyPage();
-        //TeacherListPage teacherListPage = new TeacherListPage();
-        //Room roomPage = new Room();
-
-        ImageIcon [] tabIcons = { new ImageIcon("home.png"),
-                new ImageIcon("mypage.png"), new ImageIcon("teacherList.png"),
-                new ImageIcon("basket.png"), new ImageIcon("room.png") };
-
-        tab.addTab("List of reservations", tabIcons[0], subTab);
-
-        subTab.addTab("By List", newContentPane);
-        /*subTab.addTab("By Picture", lecturePage);
+        tab.addTab("Customer", tabIcons[0], subTab);
         tab.addTab("My Page", tabIcons[1], myPage);
-        tab.addTab("강사목록", tabIcons[2], teacherListPage);
-        tab.addTab("장바구니", tabIcons[3], basketPage);
-        tab.addTab("강의실", tabIcons[4], roomPage);
 
-        myPage.logOut.addActionListener(e -> {
-            int choice = JOptionPane.showConfirmDialog(null, "Do you want log out?",
-                    "Logout", JOptionPane.OK_CANCEL_OPTION);
-
-            if (choice == JOptionPane.OK_OPTION) {
-                JOptionPane.showMessageDialog(null, "Good bye, " + Login.c.name,
-                        "Logout Success", JOptionPane.INFORMATION_MESSAGE);
-                Login.c = null;
-
-                mainFrame.dispose();
-                GUIManager.run(engine);
-            }
-        });*/
         mainFrame.pack();
-        mainFrame.setSize(950, 850);
+        mainFrame.setSize(1050, 850);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }

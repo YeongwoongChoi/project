@@ -2,15 +2,9 @@ package entity;
 
 import driver.Manageable;
 
-import java.util.HashMap;
-
-public class Vendor implements Manageable {
-    String identifier;
-    String name;
-    HashMap<String, Double> ingredientsToPrice;
-
+public class Owner implements Manageable {
     @Override
-    public void read(String [] row) {
+    public void read(String[] row) {
 
     }
 

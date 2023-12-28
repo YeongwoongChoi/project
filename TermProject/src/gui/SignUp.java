@@ -2,6 +2,7 @@ package gui;
 
 import driver.DatabaseInfo;
 import driver.Main;
+import driver.Manageable;
 import driver.Manager;
 import entity.Customer;
 
@@ -19,6 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,7 +69,6 @@ public class SignUp extends JFrame implements Frame {
                 if (input.equals(initialText))
                     f.setText("");
             }
-
             @Override
             public void focusLost(FocusEvent e) {
                 String input = f.getText();
@@ -88,7 +89,7 @@ public class SignUp extends JFrame implements Frame {
         else if (id.isBlank())
             JOptionPane.showMessageDialog(null,
                     "Your ID should be written here", "Error", JOptionPane.ERROR_MESSAGE);
-        else if (Arrays.stream(phone).anyMatch(p -> isDuplicate(id, p)))
+        else if (Arrays.stream(phone).anyMatch(p -> isDuplicate(new String[]{id, p})))
             JOptionPane.showMessageDialog(null,
                     "You already signed up using your number", "Error", JOptionPane.ERROR_MESSAGE);
         else
@@ -220,7 +221,7 @@ public class SignUp extends JFrame implements Frame {
                             ps.setInt(4, age);
                             ps.executeUpdate();
 
-                            HashSet<String> contacts = new HashSet<>();
+                            LinkedHashSet <String> contacts = new LinkedHashSet<>();
 
                             for (String phone : phoneNumber) {
                                 ps = conn.prepareStatement("insert into customercontact values(?, ?)");
@@ -273,13 +274,13 @@ public class SignUp extends JFrame implements Frame {
         GUIManager.customCursor(this);
         contentPane.add(backPanel);
         pack();
-        setSize(950, 850);
+        setSize(1050, 850);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
     }
 
-    boolean isDuplicate(String id, String phoneNumber) { return cManager.find(id, phoneNumber) != null; }
+    boolean isDuplicate(String [] info) { return cManager.find(info) != null; }
 
     @Override
     public void addComponents(JPanel panel) { }

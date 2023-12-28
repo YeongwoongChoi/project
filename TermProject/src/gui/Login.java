@@ -3,13 +3,16 @@ package gui;
 import driver.Main;
 import driver.Manager;
 import entity.Customer;
+import entity.Owner;
 import facade.DataEngineInterface;
 import view.CustomerView;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 class ImageDraw extends JPanel {
     Image img = new ImageIcon("img/loginBackground.jpg").getImage();
@@ -21,8 +24,10 @@ class ImageDraw extends JPanel {
 }
 
 public class Login extends JFrame implements Frame {
-    Manager<Customer> cManager = Main.customerMgr;
+    Manager <Customer> cManager = Main.customerMgr;
+
     public static Customer c;
+
     final int CENTER = 325, WIDTH = 320, HEIGHT = WIDTH, ID_FIELD_MAX = 15, PHONE_FIELD_MAX = 12;
 
     final JLabel mainTitle = new JLabel("Integrated Management System");
@@ -33,29 +38,30 @@ public class Login extends JFrame implements Frame {
     JButton exitButton = new JButton(new ImageIcon("img/exit_off.png"));
     JButton signUpButton = new JButton(new ImageIcon("img/signUp_off.png"));
 
-    Customer findMember(String id, String phoneNumber) {
-        return cManager.find(id, phoneNumber);
+
+    Customer findMember(String [] info) {
+        return cManager.find(info);
     }
 
     public void run(DataEngineInterface engine) {
         GUIManager.customCursor(this);
+
         setTitle("Login");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        JPanel mainContainer = new JPanel();
         JPanel background = new ImageDraw();
-
         setContentPane(background);
         setLayout(null);
         addComponents(background);
 
         logInButton.addActionListener(e -> {
-            String targetPhoneNumber = phoneNumber.getText();
-            String targetID = identifier.getText();
-            if ((c = findMember(targetID, targetPhoneNumber)) == null)
+            String [] targetInfo = { identifier.getText(), phoneNumber.getText() };
+            if ((c = findMember(targetInfo)) == null)
                 JOptionPane.showMessageDialog(null, "Wrong Account Information",
                         "Login Error", JOptionPane.ERROR_MESSAGE);
-            else
+            else {
                 CustomerView.run(engine);
+                dispose();
+            }
         });
 
         GUIManager.setButtonProperties(logInButton);
@@ -76,7 +82,7 @@ public class Login extends JFrame implements Frame {
             if (selected == JOptionPane.OK_OPTION)
                 dispose();
         });
-        setSize(950, 850);
+        setSize(1050, 850);
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);

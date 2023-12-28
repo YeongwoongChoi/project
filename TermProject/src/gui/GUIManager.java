@@ -47,9 +47,7 @@ public class GUIManager {
                 c.setIcon(exited);
             }
             @Override
-            public void mouseClicked(MouseEvent e) {
-                c.setIcon(entered);
-            }
+            public void mouseClicked(MouseEvent e) { c.setIcon(entered); }
         });
     }
 

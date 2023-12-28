@@ -23,7 +23,7 @@ public class Dish implements Manageable {
     }
 
     @Override
-    public boolean matches(String name, String phoneNumber) {
+    public boolean matches(String [] info) {
         return false;
     }
 }

@@ -6,12 +6,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class Restaurant implements Manageable {
-    String restaurantCode;
-    String typeOfDishes;
-    String restaurantName;
-    String location;
-    double rating;
-    String phoneNumber;
+    public String restaurantCode;
+    public String typeOfDishes;
+    public String restaurantName;
+    public String location;
+    public double rating;
+    public String phoneNumber;
     @Override
     public void read(String [] row) {
         restaurantCode = row[0];
@@ -29,8 +29,8 @@ public class Restaurant implements Manageable {
     }
 
     @Override
-    public boolean matches(String name, String phoneNumber) {
-        return false;
+    public boolean matches(String [] info) {
+        return restaurantCode.equals(info[0]);
     }
 
 }

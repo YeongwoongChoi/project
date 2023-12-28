@@ -5,5 +5,5 @@ import java.io.IOException;
 public interface Manageable {
     void read(String [] row);
     void print();
-    boolean matches(String name, String phoneNumber);
+    boolean matches(String [] info);
 }
