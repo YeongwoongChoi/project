@@ -9,7 +9,7 @@ class DatabaseInfo {
 
     DatabaseInfo() {
         /* just for test */
-        this.admin = new User("yeongwoong", "chlduddnd00");
+        this.admin = new User("user", "password");
     }
     String getURL() { return this.databaseURL; }
     String [] getUserInfo() {
