@@ -17,6 +17,13 @@
 3. Go inside the folder, and you can __easily__ find the sub-folder which is named as __src__.   
 <hr/>
 
+### For Those Who Want to See Another codes,
+
+First of all, they will be codes which accompany with some mini-wise-project ones. They consist of Java and MySQL codes.
+
+Those codes will be in the branch named as "master". - I think that it would be one of my mistakes.
+
+
 If you have any question, please email me.
 
 Personal email: <278choi@gmail.com>   
