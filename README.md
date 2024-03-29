@@ -13,7 +13,7 @@
 ### If you want to see codes,   
 
 1. Go to __src__ folder.
-2. Select the folder in which you are interested. - but there is only one project inside xD
+2. Select the folder in which you are interested.
 3. Go inside the folder, and you can __easily__ find the sub-folder which is named as __src__.   
 <hr/>
 
