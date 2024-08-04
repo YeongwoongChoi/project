@@ -1,0 +1,57 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="utils.DataBaseUtil" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>정보 확인 중</title>
+</head>
+<%
+final int FINDING_ID = 0;
+final int FINDING_PASSWORD = 1;
+
+int findingType = Integer.parseInt(request.getParameter("type"));
+
+String password = DataBaseUtil.getHashedValue(request.getParameter("userPassword"));
+Class.forName(DataBaseUtil.getDatabaseDriver());
+Connection conn = DataBaseUtil.getConnection();
+String sql = "select customerPassword from customer where customerIdentifier=?;";
+PreparedStatement ps = conn.prepareStatement(sql);
+ps.setString(1, id);
+ResultSet rs = ps.executeQuery();
+rs.next();
+
+String existingPassword = rs.getString(1); boolean succeed = password.equals(existingPassword); if 
+(succeed) {
+    sql = "delete from customer where customerIdentifier=?;";
+    ps = conn.prepareStatement(sql);
+    ps.setString(1, id);
+    int affected = ps.executeUpdate();
+    succeed = affected > 0;
+}
+%>
+<script>
+function closeAll() {
+    opener.location.href = 'index.jsp';
+    parent.close();
+    window.close();
+    self.close();
+}
+</script>
+<body>
+<%
+if (succeed) { %>
+    <script>
+        alert('탈퇴에 성공하였습니다.');
+    closeAll();
+    </script>
+        <% } else { %>
+            <script>
+                alert('비밀번호를 확인해주세요.');
+            location.href = document.referrer;
+            </script>
+                <% } %>
+                </body>
+                </html>
+                <% } %>
