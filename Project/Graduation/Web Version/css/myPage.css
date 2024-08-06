@@ -1,7 +1,7 @@
 .card-column {
     float: left;
     width: 50%;
-    height: 290px;
+    height: 100%;
     padding: 5px 5px;
 }
 
@@ -33,6 +33,7 @@ input[type=button]:active {
 
 .form {
     display: flex;
+    height: inherit;
 }
 
 .submitArea {
@@ -41,6 +42,7 @@ input[type=button]:active {
     border-radius: 0 10px 10px 0;
     width: 200px;
     margin-right: 0.8em;
+    padding: 0.8em;
 }
 
 #accountInfo {
@@ -51,6 +53,7 @@ input[type=button]:active {
     border-radius: 10px 0 0 10px;
     width: 300px;
     height: auto;
+    padding: 0.5em;
 }
 
 .submitArea > input[type=submit] {
