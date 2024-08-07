@@ -2,7 +2,8 @@
 <hr/>
 
 * Overview   
-  + This folder includes some projects which I did on some lectures and for the graduation. I will be able to fix or add some codes on my repo - especially Graduation/Web Version - as I need to do them for maintaining this system.
+  + This folder includes some projects which I did on some lectures and for the graduation.
+  + I may be able to fix or add some codes on my repo - especially Graduation/Web Version - as I need to do them for maintaining this system.
 
 * Language   
   + Java (8/11+)
