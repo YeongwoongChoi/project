@@ -32,7 +32,7 @@
                 ps.executeUpdate();
             }
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println(e.getStackTrace()[0]);
+            e.printStackTrace();
         }
 %>
 <head>

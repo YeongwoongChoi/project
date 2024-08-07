@@ -18,14 +18,14 @@ body {
 #imageContainer {
     display: grid;
     grid-template-columns: 1fr;
-    width: 50%;
+    width: auto;
     height: 100%;
     padding: 0.5em;
 }
 
 #queryContainer {
     display: inline-block;
-    width: 100%;
+    width: auto;
     height: auto;
     align-items: center;
 }
@@ -52,8 +52,9 @@ body {
 
 .description {
     display: flex;
-    width: 100%;
+    width: auto;
     height: auto;
+    flex-direction: column;
 }
 
 p {
@@ -84,7 +85,7 @@ p {
     border-radius: 20px;
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: auto;
     height: auto;
     text-align: center;
     align-content: center;
