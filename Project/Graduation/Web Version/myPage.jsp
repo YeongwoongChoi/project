@@ -55,7 +55,8 @@
                 searching: true,
                 bAutoWidth: false,
                 columnDefs: [
-                    {orderable: false, targets: 7}
+                    {orderable: false, targets: [7, 8]},
+                    {targets: '_all', className: 'dt-center'}
                 ],
                 lengthMenu: [5, 10, 25, 50]
             });
@@ -66,7 +67,8 @@
                 searching: true,
                 bAutoWidth: false,
                 columnDefs: [
-                    {orderable: false, targets: 4}
+                    {orderable: false, targets: [4, 5]},
+                    {targets: '_all', className: 'dt-center'}
                 ],
                 lengthMenu: [5, 10, 25, 50]
             });
@@ -76,12 +78,25 @@
         const selected = (type === 1 ? confirm("예약이 취소됩니다.") : confirm("주문이 취소됩니다."));
         let params = 'rest=' + s + '&date=' + dateTime.trim() + '&type=' + type;
         if (type === 0)
-		params += ('&did=' + $('input[name=dishID][value=' + dishId + ']').val());
+		    params += ('&did=' + $('input[name=dishID][value=' + dishId + ']').val());
         if (selected) {
             location.href = 'checkCancellation.jsp?' + params;
             return true;
         }
         return false;
+    }
+
+    function modify(s, dateTime, dishId, type) {
+        const selected = (type === 1 ? confirm("예약을 수정하시겠습니까?"): confirm("주문을 수정하시겠습니까?"));
+        let params = 'rest=' + s + '&date=' + dateTime.trim() + '&type=' + type;
+        if (type === 0)
+            params += ('&did=' + $('input[name=dishID][value=' + dishId + ']').val());          
+        if (selected) {
+            createWindow('modifyReservation.jsp?' + params);
+            return true;
+        }
+        return false;
+
     }
 
     function createWindow(s, width = 640, height = 480) {
@@ -299,7 +314,7 @@
                                 rs = ps.executeQuery();
                                 while (rs.next()) {
                             %>
-                            <tr>
+                                <tr>
                                 <td><%=rs.getString(2)%>
                                 </td>
                                 <%
@@ -331,10 +346,15 @@
                                 </td>
                                 <td><%=DataBaseUtil.getDateTimeFormat(rs.getDate(5).toString(), rs.getTime(5).toString())%>
                                 </td>
-                                <td><input type="button" value="주문 취소" onclick="cancel('<%=rs.getString(2)%>',
-									   '<%=DataBaseUtil.replaceSpace(DataBaseUtil.getDateTimeFormat(rs.getDate(5).toString(), rs.getTime(5).toString()))%>', '<%=rs.getString(3)%>', 0)">
+                                <td>
+							
+<input type="button" value="주문 수정" onclick="modify('<%=rs.getString(2)%>', '<%=DataBaseUtil.getDateTimeFormat(rs.getDate(5).toString(), rs.getTime(5).toString())%>', '<%=rs.getString(3)%>', 0)">
+                                </td>
+                                <td>
+<input type="button" value="주문 취소" onclick="cancel('<%=rs.getString(2)%>', '<%=DataBaseUtil.getDateTimeFormat(rs.getDate(5).toString(), rs.getTime(5).toString())%>', '<%=rs.getString(3)%>', 0)">
                                 </td>
                             </tr>
+                            </form>
                             <% } %>
                             </tbody>
                         </table>
@@ -390,9 +410,15 @@
                                 <td><%=r.getNumbers()%>
                                 </td>
                                 <td>
+                                    <input type="button" id="modification" value="예약 수정
+"
+                                           onclick="modify('<%=r.getCode()%>',
+                                                   '<%=r.getReservedTime()%>', 0, 1)">
+                                </td>
+                                <td>
                                     <input type="button" id="cancellation" value="예약 취소"
                                            onclick="cancel('<%=r.getCode()%>',
-                                                   '<%=DataBaseUtil.replaceSpace(r.getReservedTime())%>', 0, 1)">
+                                                   '<%=r.getReservedTime()%>', 0, 1)">
                                 </td>
                             </tr>
                             <% } %>

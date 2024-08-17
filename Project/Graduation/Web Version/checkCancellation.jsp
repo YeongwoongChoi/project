@@ -64,11 +64,7 @@ if (id == null) {
                 alert('취소 되었습니다.');
             location.href = document.referrer;
             </script>
-                <% } else { %>
-                    <script>
-                        alert('이게 왜 안돼');
-                    </script>
-                        <% } %>
+                <% } %>
                         </body>
                         </html>
                         <% } %>

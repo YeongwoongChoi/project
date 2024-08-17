@@ -197,8 +197,7 @@ input[type=button]:active {
                             <% while (rs.next()) {
                                 for (int i = 0; i < columns; i++)
                                     row[i] = rs.getString(i + 1);
-                                Restaurant r = new Restaurant(row);
-                                session.setAttribute(row[0], r);
+                                Restaurant r = (Restaurant) session.getAttribute(row[0]);
                             %>
                             <tr>
                                 <td><%=r.getRestaurantCode()%>

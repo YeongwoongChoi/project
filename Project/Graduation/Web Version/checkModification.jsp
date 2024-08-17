@@ -10,8 +10,10 @@
 <%@ page import="utils.DataBaseUtil" %>
 
 <%
+	final int MODIFY_RESERVATION = 3;
+	final int MODIFY_ORDER = 2;
     final int MODIFY_PWD = 1;
-    final int MODIFY_OTHERS = 0;
+    final int MODIFY_USER = 0;
 
     request.setCharacterEncoding("UTF-8");
     int type = Integer.parseInt(request.getParameter("type"));
@@ -21,15 +23,15 @@
         response.sendRedirect("index.jsp");
     } else {
         ResultSet rs;
-        String sql;
+        String sql, dateTime = "", restaurantCode;
         PreparedStatement ps;
         Class.forName(DataBaseUtil.getDatabaseDriver());
         Connection conn = DataBaseUtil.getConnection();
 
-        boolean[] isValid = {true, true};
+        boolean isValid = true;
 
         switch (type) {
-            case MODIFY_OTHERS:
+            case MODIFY_USER:
                 String sex = request.getParameter("sex");
                 int age = Integer.parseInt(request.getParameter("age"));
                 String phoneNumber = request.getParameter("phoneNumber");
@@ -40,7 +42,7 @@
                     ps.setString(1, sex);
                     ps.setInt(2, age);
                     ps.setString(3, id);
-                    ps.executeUpdate();
+                    isValid = ps.executeUpdate() > 0;
                 } catch (SQLException e) {
                     System.out.println("Error occurred while updating customer\\'s information");
                 }
@@ -51,8 +53,7 @@
                     ps.setString(1, phoneNumber);
                     ps.setString(2, id);
                     ps.setString(3, id);
-                    if (ps.executeUpdate() == 0)
-                        isValid[MODIFY_OTHERS] = false;
+                    isValid = ps.executeUpdate() > 0;
                 } catch (SQLException e) {
                     System.out.println("Error occurred while updating customer\\'s contact.");
                 }
@@ -67,22 +68,65 @@
                 rs = ps.executeQuery();
                 rs.next();
                 String pwdInDB = rs.getString(1);
-                if (pwdInDB.equals(currentPwd)) {
+                isValid = pwdInDB.equals(currentPwd);
+
+                if (isValid) {
                     sql = "update customer set customerPassword=? where customerIdentifier=?;";
                     ps = conn.prepareStatement(sql);
                     ps.setString(1, newPwd);
                     ps.setString(2, id);
                     ps.executeUpdate();
-                } else
-                    isValid[MODIFY_PWD] = false;
+                }
                 break;
+			case MODIFY_ORDER:
+                restaurantCode = request.getParameter("restaurantCode");
+                String dishIdentifier = request.getParameter("dishIdentifier");
+				String orderedTime = request.getParameter("previousDateTime");
+                
+                dateTime = DataBaseUtil.getDateTimeFormat(request.getParameter("selectedDate"), request.getParameter("selectedTime"));
+                String selectedDish = request.getParameter("selectedDish");
+                int amount = Integer.parseInt(request.getParameter("amount"));
+
+                sql = "update customerorder set dishIdentifier = ?, orderedTime = ?, totalDishes = ? where customerIdentifier = ? and restaurantCode = ? and dishIdentifier = ? and orderedTime = ?;";
+
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, dishIdentifier);
+                ps.setString(2, dateTime);
+                ps.setInt(3, amount);
+                ps.setString(4, id);
+                ps.setString(5, restaurantCode);
+                ps.setString(6, selectedDish);
+                ps.setString(7, orderedTime);
+
+                isValid = ps.executeUpdate() > 0; 
+                break;
+
+			case MODIFY_RESERVATION:
+                restaurantCode = request.getParameter("restaurantCode");
+                dateTime = DataBaseUtil.getDateTimeFormat(request.getParameter("selectedDate"), request.getParameter("selectedTime"));
+
+                String reservedTime = request.getParameter("previousDateTime");
+                int people = Integer.parseInt(request.getParameter("people"));
+
+                sql = "update reserve set numberOfPeople = ?, reservedTime = ? where customerIdentifier = ? and restaurantCode = ? and reservedTime = ?;";
+
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, people);
+                ps.setString(2, dateTime);
+                ps.setString(3, id);
+                ps.setString(4, restaurantCode);
+                ps.setString(5, reservedTime);
+
+                isValid = ps.executeUpdate() > 0;
+				break;
         }
+        conn.close();
 %>
 <!DOCTYPE html>
 <html>
 <head>
     <% switch (type) {
-        case MODIFY_OTHERS:
+        case MODIFY_USER:
     %>
     <title>정보 변경중</title>
     <% break;
@@ -90,11 +134,17 @@
     %>
     <title>비밀번호 변경중</title>
     <% break;
-    } %>
+        case MODIFY_ORDER:
+        case MODIFY_RESERVATION:
+    %>
+        <title>예약 변경중</title>
+        <% break;
+        } %>
 
 </head>
 <script>
     function closeAll() {
+        opener.location.reload();
         parent.close();
         window.close();
         self.close();
@@ -102,34 +152,11 @@
 </script>
 <body>
 <%
-    switch (type) {
-        case MODIFY_OTHERS:
-            if (isValid[MODIFY_OTHERS]) { %>
-<script>
-    alert('정보 변경에 성공하였습니다.');
-</script>
-<% } else { %>
-<script>
-    alert('전화번호가 일치하지 않습니다.');
-</script>
-<% } %>
-<% break;
-    case MODIFY_PWD:
-        if (isValid[MODIFY_PWD]) { %>
-<script>
-    alert('비밀번호 변경에 성공하였습니다.');
-</script>
-<% } else { %>
-<script>
-    alert('현재 비밀번호를 올바르게 입력하세요.');
-</script>
-<% } %>
-<script> closeAll(); </script>
-<% break;
-} %>
-<script>
-    location.href = document.referrer;
-</script>
+    if (isValid) { %>
+        <script> alert('변경에 성공하였습니다.'); </script>
+    <% }
+    } %>
+
+    <script> closeAll(); </script>
 </body>
 </html>
-<% } %>

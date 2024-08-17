@@ -1,6 +1,7 @@
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="utils.DataBaseUtil" %>
+<%@ page import="entity.Restaurant" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
@@ -12,10 +13,18 @@
     if (id == null) {
         response.sendRedirect("index.jsp");
     } else {
-        String[] row;
-        String sql;
-        PreparedStatement ps;
-        ResultSet rs;
+        String[] row = new String[6];
+        String sql = "select * from restaurant;";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            for (int i = 0; i < 6; i++)
+                row[i] = rs.getString(i + 1);
+
+            Restaurant r = new Restaurant(row);
+            session.setAttribute(row[0], r);
+        }   
+
 %>
 <!DOCTYPE html>
 <html>
@@ -233,7 +242,6 @@
                                 ps = conn.prepareStatement(sql);
                                 ps.setString(1, id);
                                 rs = ps.executeQuery();
-                                row = new String[5];
 
                                 while (rs.next()) {
                                     row[0] = rs.getString(2);
