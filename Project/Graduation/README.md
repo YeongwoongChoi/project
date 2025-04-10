@@ -10,7 +10,7 @@
  
 * 주요 정보
     + 현재 repo에 있는 코드는 localhost에서 동작한 후, 실행하였던 소스 코드입니다.
-    + 웹 사이트로 이식 및 구현된 버전은 https://choihero.duckdns.org 에서 확인할 수 있습니다.
+    + 웹 사이트로 이식 및 구현된 버전은 http://choihero.duckdns.org 에서 확인할 수 있습니다.
     + <b>테스트용 ID: test, password: 1234 </b>
     + 모바일 환경에서 접속할 경우, 레이아웃 등 일부 기능의 동작이 정상적이지 않을 수 있습니다.
     + <b>[수정: 2024. 8. 1. 15:07] delete query issue 수정 완료 </b>(https://github.com/YeongwoongChoi/project/issues/2#issue-2441552050)
